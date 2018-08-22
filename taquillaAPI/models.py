@@ -7,7 +7,7 @@ def _neg_validation(value):
     Funcion para validacion de campos no negativos
     """
     if value < 0 : 
-        raise ValidationError(_"El valor debe ser mayor que cero", status='invalid')
+        raise ValidationError(_("El valor debe ser mayor que cero"), status='invalid')
 
 class Articulo(models.Model):
 	"""
@@ -80,7 +80,7 @@ class Preparador(models.Model):
 	nombre = models.CharField(max_length=50,validators=[RegexValidator(regex='[a-zA-Z]+',message='Nombre invalido')])
 	apellido = models.CharField(max_length=50,validators=[RegexValidator(regex='[a-zA-Z]+',message='Apellido invalido')])
 	#correo = models.CharField(max_length=20,validators=[RegexValidator(regex='([a-zA-Z0-9_-]+\.?){1,}@[a-z]+\.[a-z]{1,}', message='Email invalido')])
-	cantidad_deuda = models.FloatField(default=0, validator=[_neg_validation])
+	cantidad_deuda = models.FloatField(default=0, validators=[_neg_validation])
 	fecha_deuda = models.DateTimeField(default=None)
 
 class HistorialCuenta(models.Model):
@@ -182,7 +182,7 @@ class Deuda(models.Model):
 	"""
 	id_transaccion = models.ForeignKey(Transaccion, on_delete=models.CASCADE)
 	articulo = models.ForeignKey(Articulo,on_delete=models.CASCADE)
-	cantidad_producto = models.IntegerField(default=0, validator=[_neg_validation])
+	cantidad_producto = models.IntegerField(default=0, validators=[_neg_validation])
 	preparador = models.ForeignKey(Preparador,on_delete=models.CASCADE)
 
 class PagoDeuda(models.Model):
@@ -204,7 +204,7 @@ class PagoDeuda(models.Model):
 		preparador : Referencia al preparador.
 	"""
 	id_transaccion = models.ForeignKey(Transaccion, on_delete=models.CASCADE)
-	montoDeuda = models.FloatField(default=0, validator=[_neg_validation])
+	montoDeuda = models.FloatField(default=0, validators=[_neg_validation])
 	tipoPago = models.CharField(max_length=30,validators=[RegexValidator(regex='[a-zA-z ]+',message='Metodo de pago no valido')])
 	nro_confirmacion = models.IntegerField(default=None,validators=[RegexValidator(regex='[0-9]{1,}',message='Numero de confirmacion invalido')])
 	plataforma_pago = models.ForeignKey(PlataformaPago, on_delete=models.CASCADE, default=None)
